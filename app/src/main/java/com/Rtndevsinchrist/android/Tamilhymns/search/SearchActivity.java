@@ -25,6 +25,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity;
+import com.Rtndevsinchrist.android.Tamilhymns.OpenActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.Rtndevsinchrist.android.Tamilhymns.HymnGroup;
 import com.Rtndevsinchrist.android.Tamilhymns.search.fragments.AuthorTabFragment;
@@ -45,6 +47,7 @@ public class SearchActivity extends AppCompatActivity  {
     private SearchTabsPagerAdapter mSearchTabsPagerAdapter;
     private ViewPager mViewPager;
     private SearchView searchBar;
+
 //    private MenuItem keyboardToggleButton;
 
 
@@ -58,64 +61,70 @@ public class SearchActivity extends AppCompatActivity  {
         Toolbar tabBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tabBar);
 
+
         // get selected hymn group
         Bundle extras = getIntent().getExtras();
-        selectedHymnGroup = (HymnGroup) extras.get("selectedHymnGroup");
-        setTitle(selectedHymnGroup.getSimpleName() + " Index");
+        if(extras!=null)
+            selectedHymnGroup = (HymnGroup) extras.get("selectedHymnGroup");
 
 
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (selectedHymnGroup == null) {
+            createIntentAndExit(getIntent().getStringExtra("hymnid"));
+        } else {
+            setTitle(selectedHymnGroup.getSimpleName() + " Index");
 
-        mSearchTabsPagerAdapter = new SearchTabsPagerAdapter(getSupportFragmentManager());
+            actionBar = getSupportActionBar();
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mViewPager = findViewById(R.id.viewpager);
-        mViewPager.setAdapter(mSearchTabsPagerAdapter);
+            mSearchTabsPagerAdapter = new SearchTabsPagerAdapter(getSupportFragmentManager());
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-        // Set Icons
-        for(TabFragment tab:TabFragment.COLLECTION.values()) {
-            tabLayout.getTabAt(tab.getSearchTabIndex()).setIcon(tab.getIcon());
+            mViewPager = findViewById(R.id.viewpager);
+            mViewPager.setAdapter(mSearchTabsPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
+            // Set Icons
+            for (TabFragment tab : TabFragment.COLLECTION.values()) {
+                tabLayout.getTabAt(tab.getSearchTabIndex()).setIcon(tab.getIcon());
+
+            }
+
+
+            mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+
+                    Log.d(this.getClass().getName(), "Page position changed. new position is: " + position);
+
+                    // clear focus when history tab is selected because history has no search
+                    if ((TabFragment.COLLECTION.get(position) instanceof HistoryTabFragment)) {
+                        Log.d(this.getClass().getName(), "position is not HistoryTabFragment. clear focus of search bar");
+                        // it's the only way to defocus the search bar
+                        searchBar.setFocusable(false);
+                        searchBar.setFocusable(true);
+                        searchBar.setFocusableInTouchMode(true);
+                        hideKeyboard();
+                        return;
+
+                    }
+
+                    searchBar.setInputType(TabFragment.COLLECTION.get(position).getInputType());
+
+                    Log.d(this.getClass().getName(), "trying to clear text. Hope it wont throw error.");
+                    searchBar.setQuery("", false);
+
+
+                }
+            });
+
+
+            TabFragment.setSelectedHymnGroup(selectedHymnGroup);
 
         }
 
-
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-
-                Log.d(this.getClass().getName(), "Page position changed. new position is: " + position);
-
-                // clear focus when history tab is selected because history has no search
-                if ((TabFragment.COLLECTION.get(position) instanceof HistoryTabFragment)) {
-                    Log.d(this.getClass().getName(), "position is not HistoryTabFragment. clear focus of search bar");
-                    // it's the only way to defocus the search bar
-                    searchBar.setFocusable(false);
-                    searchBar.setFocusable(true);
-                    searchBar.setFocusableInTouchMode(true);
-                    hideKeyboard();
-                    return;
-
-                }
-
-                searchBar.setInputType(TabFragment.COLLECTION.get(position).getInputType());
-
-                Log.d(this.getClass().getName(), "trying to clear text. Hope it wont throw error.");
-                searchBar.setQuery("", false);
-
-
-            }
-        });
-
-
-        TabFragment.setSelectedHymnGroup(selectedHymnGroup);
-
     }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -200,9 +209,9 @@ public class SearchActivity extends AppCompatActivity  {
     }
 
     public void createIntentAndExit(String hymnId) {
+        Log.e("cIE",hymnId);
         Intent data = new Intent();
         data.setData(Uri.parse(hymnId));
-
         setResult(RESULT_OK, data);
         finish();
     }
@@ -237,7 +246,8 @@ public class SearchActivity extends AppCompatActivity  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        TabFragment.COLLECTION.get(mViewPager.getCurrentItem()).cleanUp();
+        if(selectedHymnGroup!=null)
+            TabFragment.COLLECTION.get(mViewPager.getCurrentItem()).cleanUp();
     }
 
 

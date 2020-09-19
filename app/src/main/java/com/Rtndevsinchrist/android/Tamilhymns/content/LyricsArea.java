@@ -3,7 +3,6 @@ package com.Rtndevsinchrist.android.Tamilhymns.content;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
@@ -19,12 +18,10 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.Rtndevsinchrist.android.Tamilhymns.HymnGroup;
-import com.Rtndevsinchrist.android.Tamilhymns.HymnSwitcher;
 import com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity;
-import com.Rtndevsinchrist.android.Tamilhymns.OpenActivity;
+import com.Rtndevsinchrist.android.Tamilhymns.R;
 import com.Rtndevsinchrist.android.Tamilhymns.entities.Hymn;
 import com.Rtndevsinchrist.android.Tamilhymns.entities.Stanza;
-import com.Rtndevsinchrist.android.Tamilhymns.R;
 import com.Rtndevsinchrist.android.Tamilhymns.search.SearchActivity;
 import com.Rtndevsinchrist.android.Tamilhymns.style.HymnTextFormatter;
 import com.Rtndevsinchrist.android.Tamilhymns.style.Theme;
@@ -32,24 +29,24 @@ import com.Rtndevsinchrist.android.Tamilhymns.style.Theme;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * @author Lemuel Cantos
  * @since 22/2/2020
  */
 public class LyricsArea extends ContentComponent<NestedScrollView> {
+    private static float fontSize;
     private final TextView subjectHeader;
     private final ViewGroup stanzaView;
     private final TextView composerView;
     private final TextView lyricHeader;
     private final SharedPreferences sharedPreferences;
     private final Theme theme;
-    private int columnNo=0;
-    private LinearLayout currentTextLinearLayout;
-    private static float fontSize;
     SearchActivity searchActivity = new SearchActivity();
-
-    TextView tvSimilar,tvTime,tvKey,tvRelated;
+    TextView tvSimilar, tvTime, tvKey, tvRelated;
     String rel;
+    private int columnNo = 0;
+    private LinearLayout currentTextLinearLayout;
 
 
     public LyricsArea(Hymn hymn, Fragment parentFragment, NestedScrollView view) {
@@ -74,12 +71,10 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
         composerView.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
 
-
-
-        tvSimilar=view.findViewById(R.id.tvSimilar);
-        tvKey=view.findViewById(R.id.tvKey);
-        tvTime=view.findViewById(R.id.tvTime);
-        tvRelated=view.findViewById(R.id.tvRelated);
+        tvSimilar = view.findViewById(R.id.tvSimilar);
+        tvKey = view.findViewById(R.id.tvKey);
+        tvTime = view.findViewById(R.id.tvTime);
+        tvRelated = view.findViewById(R.id.tvRelated);
 
     }
 
@@ -96,14 +91,14 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
             if (hymn == null) return;
 
             // ########################### Build Header
-            boolean headerContentPresent=false;
+            boolean headerContentPresent = false;
             StringBuilder text = new StringBuilder();
             if (isNotEmpty(hymn.getMainCategory())) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<b>" + hymn.getMainCategory() + "</b>");
             }
             if (isNotEmpty(hymn.getSubCategory())) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<br/>" + hymn.getSubCategory());
             }
             if (hymn.isNewTune()) text.append("<br/>(New Tune)");
@@ -112,29 +107,30 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
             text = new StringBuilder();
             // **** tune header
             if (isNotEmpty(hymn.getMeter())) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<br/>Similar Tune: ");
                 text.append(hymn.getMeter());
             }
             if (isNotEmpty(hymn.getTime())) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<br/>Time: ");
                 text.append(hymn.getTime());
             }
             if (isNotEmpty(hymn.getKey())) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<br/>Key: " + hymn.getKey());
             }
             if (isNotEmpty(hymn.getVerse())) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<br/>Verses: ");
                 text.append(hymn.getVerse());
             }
 
+
             // ** build related
             List<String> related = hymn.getRelated();
             if (related != null && related.size() != 0) {
-                headerContentPresent=true;
+                headerContentPresent = true;
                 text.append("<br/>Related: ");
                 StringBuilder relatedConcat = new StringBuilder();
                 for (String r : related) {
@@ -148,56 +144,44 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
                 }
             }
 
-            if(!headerContentPresent) {
+            if (!headerContentPresent) {
                 View mainHeaderContainer = view.findViewById(getRid("mainHeaderContainer"));
                 mainHeaderContainer.setVisibility(View.GONE);
             } else {
                 // Use text.substring to remove the leading <br/>
                 String header;
-                if(text.length()>5) {
+                if (text.length() > 5) {
                     header = text.substring(5);
-                    Log.e("test",text.toString());
+                    Log.e("test", text.toString());
 
-                    if(hymn.getMeter()!=null && hymn.getMeter()!="null") {
+                    if (hymn.getMeter() != null && hymn.getMeter() != "null") {
 
                         tvSimilar.setText("Similar Tune: " + hymn.getMeter());
                         tvSimilar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                        Toast.makeText(context, ""+hymn.getMeter(), Toast.LENGTH_SHORT).show();
-//                        Intent i = new Intent(view.getContext(),HymnsActivity.class);
-//                        i.putExtra("hymnid",hymn.getMeter());
-//                        view.getContext().startActivity(i);
+                                Toast.makeText(context, "" + hymn.getMeter(), Toast.LENGTH_SHORT).show();
 
-//                                Intent intent = new Intent(view.getContext(),HymnsActivity.class);
-//                                intent.setData(Uri.parse(hymn.getMeter()));
-//                                view.getContext().startActivity(intent);
-//
-//                                HymnSwitcher hymnSwitcher=new HymnSwitcher();
-//                                hymnSwitcher.switchHymn(hymn.getMeter());
-
-
-
+                                Intent intent = new Intent(view.getContext(), HymnsActivity.class);
+                                intent.putExtra("hymnid", hymn.getMeter());
+                                view.getContext().startActivity(intent);
 
                             }
                         });
-                    }
-                    else
-                    {
+                    } else {
 
                         tvSimilar.setTextColor(Color.parseColor("#686F74"));
                         tvSimilar.setText("Similar Tune: N/A");
                     }
-                    tvTime.setText("Time: "+hymn.getTime());
-                    tvKey.setText("Key: "+hymn.getKey());
-                    tvRelated.setText("Related: "+rel);
-
+                    tvTime.setText("Time: " + hymn.getTime());
+                    tvKey.setText("Key: " + hymn.getKey());
+                    tvRelated.setText("Related: " + rel);
 
 
                 } else {
                     header = "";
                 }
-                lyricHeader.setText(Html.fromHtml(header +"test"));
+                lyricHeader.setText(Html.fromHtml(header + "test"));
             }
 
             // ######################## Build Lyric Text
@@ -205,7 +189,7 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
             String chorusText = "";
             text = new StringBuilder();
             ArrayList<Stanza> stanzas = hymn.getStanzas();
-            if(stanzas.get(0).getNo().equals("beginning-note")) {
+            if (stanzas.get(0).getNo().equals("beginning-note")) {
                 text.append("<i>" + stanzas.get(0).getText() + "</i><br/>");
                 stanzas.remove(stanzas.get(0));
             }
@@ -243,12 +227,12 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
 
             // #################### Build Footer
             text = new StringBuilder();
-            if(isNotEmpty(hymn.getAuthor()) || isNotEmpty(hymn.getComposer())) {
+            if (isNotEmpty(hymn.getAuthor()) || isNotEmpty(hymn.getComposer())) {
                 text.append("Author: " + hymn.getAuthor() + "<br/>");
                 text.append("Composer: " + hymn.getComposer());
                 composerView.setText(Html.fromHtml(text.toString()));
             } else {
-                ((ViewGroup)composerView.getParent()).removeView(composerView);
+                ((ViewGroup) composerView.getParent()).removeView(composerView);
             }
 
         } catch (Exception e) {
@@ -285,9 +269,8 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
     }
 
     private boolean isNotEmpty(String string) {
-        return string!=null && !string.isEmpty();
+        return string != null && !string.isEmpty();
     }
-
 
 
 }

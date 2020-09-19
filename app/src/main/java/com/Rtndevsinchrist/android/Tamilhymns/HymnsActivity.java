@@ -9,7 +9,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,10 +27,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.Rtndevsinchrist.android.Tamilhymns.R;
 import com.Rtndevsinchrist.android.Tamilhymns.content.OnLyricVisibleListener;
 import com.Rtndevsinchrist.android.Tamilhymns.search.SearchActivity;
-import com.Rtndevsinchrist.android.Tamilhymns.search.SearchAdapter;
 import com.Rtndevsinchrist.android.Tamilhymns.settings.SettingsActivity;
 import com.Rtndevsinchrist.android.Tamilhymns.style.Theme;
 
@@ -37,14 +39,13 @@ import com.Rtndevsinchrist.android.Tamilhymns.style.Theme;
 public class HymnsActivity extends AppCompatActivity implements OnLyricVisibleListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     protected final int SEARCH_REQUEST = 1;
+    public HymnBookCollection hymnBookCollection;
     //protected HymnGroup selectedHymnGroup = HymnGroup.ML;
     protected HymnGroup selectedHymnGroup = HymnGroup.TA;
     private ListView mDrawerList;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-
     private ActionBar actionBar;
-    public HymnBookCollection hymnBookCollection;
     private Theme theme = Theme.LIGHT;
     private SharedPreferences sharedPreferences;
     private boolean preferenceChanged = true;
@@ -64,20 +65,20 @@ public class HymnsActivity extends AppCompatActivity implements OnLyricVisibleLi
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        if(bundle != null){
-            String hymnid = bundle.getString("hymnid");
-            Log.e("Data",hymnid);
+        // Instantiate a ViewPager and a PagerAdapter.
+        hymnBookCollection = new HymnBookCollection(this, (ViewPager) findViewById(R.id.hymn_fragment_viewpager), theme);
 
-            Toast.makeText(this, "ID:"+hymnid, Toast.LENGTH_SHORT).show();
+        if (bundle != null) {
+            String hymnid = intent.getStringExtra("hymnid");
 
-//            SearchActivity searchActivity=new SearchActivity();
-//            searchActivity.createIntentAndExit(hymnid);
-
+            Intent data = new Intent(this, SearchActivity.class);
+            Log.e("Data", hymnid);
+            data.putExtra("hymnid", hymnid);
+            this.startActivityForResult(data,SEARCH_REQUEST);
 
         }
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        hymnBookCollection = new HymnBookCollection(this,(ViewPager) findViewById(R.id.hymn_fragment_viewpager),theme);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -95,7 +96,6 @@ public class HymnsActivity extends AppCompatActivity implements OnLyricVisibleLi
                 selectDrawerItem(position);
             }
         });
-
 
 
         // set up the drawer's list view with items and click listener
@@ -212,20 +212,22 @@ public class HymnsActivity extends AppCompatActivity implements OnLyricVisibleLi
     // Get what the user chose from the Index of Hymns and display the Hymn
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.e("sr","sr");
 
         switch (requestCode) {
             case SEARCH_REQUEST:
                 if (resultCode == RESULT_OK) {
                     try {
                         String rawData = data.getDataString().trim();
-                        Log.e("Search",rawData);
+                        Log.e("Search_", rawData);
                         selectedHymnGroup = HymnGroup.getHymnGroupFromID(rawData);
                         hymnBookCollection.switchToHymnAndRememberChoice(rawData);
                     } catch (NoSuchHymnGroupException e) {
                         e.printStackTrace();
                     }
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -241,7 +243,7 @@ public class HymnsActivity extends AppCompatActivity implements OnLyricVisibleLi
     public void onLyricVisible(String hymnId) {
 
         //if (hymnId==null) hymnId="ML1";
-        if (hymnId==null) hymnId="TA1";
+        if (hymnId == null) hymnId = "TA1";
 
         try {
             selectedHymnGroup = HymnGroup.getHymnGroupFromID(hymnId);
@@ -258,22 +260,22 @@ public class HymnsActivity extends AppCompatActivity implements OnLyricVisibleLi
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        preferenceChanged=true;
+        preferenceChanged = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(preferenceChanged) {
+        if (preferenceChanged) {
             setDisplayConfig();
             changeThemeColor();
             hymnBookCollection.refresh();
-            preferenceChanged=false;
+            preferenceChanged = false;
         }
     }
 
     private void setDisplayConfig() {
-        if(sharedPreferences.getBoolean("keepDisplayOn",false)) {
+        if (sharedPreferences.getBoolean("keepDisplayOn", false)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
