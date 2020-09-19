@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        android:id="@+id/jellybeanContentScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/dayMode"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <LinearLayout
+            android:id="@+id/lyric_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            style="@style/dayMode"
+    >
+        <!--This will solve the lyric autoscrolling problem but it blocks the lyrics from being selectable-->
+        <!--android:descendantFocusability="blocksDescendants"-->
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/mainHeaderContainer"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                style="@style/dayMode" app:cardCornerRadius="5dp" app:cardElevation="5dp"
+                android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="0dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E3F2FD"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                android:paddingTop="15dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/subjectHeader"
+                    style="@style/dayMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:background="#E3F2FD"
+                    android:gravity="center"
+                    android:text="@string/subjectFiller"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/lyricHeader"
+                    style="@style/dayMode"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="#E3F2FD"
+                    android:text="@string/headerFiller"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvSimilar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Similar"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Key"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvRelated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Related"
+                    android:textSize="18sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/buttonContainer"
+                    style="@style/dayMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="#000000"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="3dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/faveButton"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_favorite_border_white_48dp" />
+
+                        <ImageButton
+                            android:id="@+id/playButton"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_play_arrow_white_48dp" />
+
+                        <ImageButton
+                            android:id="@+id/sheetMusicButton"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_queue_music_white_48dp" />
+
+                        <ImageButton
+                            android:id="@+id/copyButton"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_content_copy_white_48dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                style="@style/dayMode" app:cardCornerRadius="5dp" app:cardElevation="5dp"
+                android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+        >
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="10dp"
+                    android:id="@+id/stanzaView"
+            >
+                <TextView
+                        android:id="@+id/jellybeanLyrics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="10dp"
+                        style="@style/dayMode"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/lyricFiller"
+                        android:fontFamily="@font/tamilea"
+                        android:textIsSelectable="true"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                style="@style/dayMode" app:cardCornerRadius="5dp" app:cardElevation="5dp"
+                android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+        >
+            <TextView
+                    android:id="@+id/composer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    style="@style/dayMode"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/composerFiller"
+                    android:textIsSelectable="true"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+

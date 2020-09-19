@@ -1,0 +1,54 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+
+        <ListPreference
+                app:defaultValue="18f"
+                app:entries="@array/font_size"
+                app:entryValues="@array/font_size_values"
+                app:key="FontSize"
+                app:title="@string/choose_font_size"
+                app:useSimpleSummaryProvider="true"
+                app:icon="@drawable/fontsize_black"
+        />
+        <SwitchPreferenceCompat
+                app:key="nightMode"
+                app:defaultValue="false"
+                app:title="@string/nightMode"
+                app:icon="@drawable/ic_brightness"/>
+        <SwitchPreferenceCompat
+                app:key="keepDisplayOn"
+                app:defaultValue="false"
+                app:title="@string/keepDisplayOn"
+                app:icon="@drawable/ic_lightbulb_outline_black_48dp"
+                app:summary="Screen will never go to sleep"/>
+        <Preference
+                app:key="manageFaves"
+                app:title="Import/Export Faves"
+                app:icon="@drawable/ic_settings_favorite_black_32dp"
+                app:summary="Make sure to regularly backup your faves"
+        />
+        <Preference
+                app:key="about"
+                app:title="About Hymns"
+                app:summary="See version or send feedback"
+                app:icon="@drawable/ic_info"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

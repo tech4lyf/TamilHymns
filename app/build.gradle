@@ -1,0 +1,76 @@
+// Note: please use similar filename for release: HymnsForAndroidv3.3-Piano
+apply plugin: 'com.android.application'
+apply plugin: 'idea'
+
+// you can choose to put either "guitarSvg" or "pianoSvg" depending on the sheet music you want to include
+def svgFolderName = "guitarSvg"
+//def svgFolderName=""
+def hymnAppVersion = "v1.0.0"
+def androidVersion = '28.0.0'
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+    }
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        applicationId "com.Rtndevsinchrist.android.Tamilhymns"
+        minSdkVersion 15    // Ice cream sandwitch
+        targetSdkVersion 29
+        // increment version code if you want to refresh the database cache of your phone
+        versionCode 138
+        versionName hymnAppVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.preference:preference:1.1.1'
+}
+
+task cleanSvg {
+    doLast {
+        def destinationPath = "" + project.projectDir + '/src/main/assets/svg'
+        delete(destinationPath);
+    }
+}
+
+task copySvgFolder(type: Copy, dependsOn: 'cleanSvg') {
+    if (!svgFolderName.isEmpty()) {
+        def sourcePath = "" + project.projectDir + "/src/" + svgFolderName
+        def destinationPath = "" + project.projectDir + '/src/main/assets/svg'
+
+
+        println "copying source svg files from: " + sourcePath
+        println "to: " + destinationPath
+
+        from sourcePath
+        into destinationPath
+    }
+
+
+}
+
+build.dependsOn copySvgFolder
+build.mustRunAfter copySvgFolder

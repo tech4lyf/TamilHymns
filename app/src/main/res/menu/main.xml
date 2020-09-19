@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/action_index"
+            android:orderInCategory="100"
+            yourapp:showAsAction="always"
+            android:icon="@drawable/ic_search_white"
+            android:title="Index"/>
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="110"
+        yourapp:showAsAction="always"
+        android:icon="@drawable/ic_settings_white_48dp"
+        android:title="Settings"
+        />
+
+</menu>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Tamil_Hymns.iml" filepath="$PROJECT_DIR$/.idea/modules/Tamil_Hymns.iml" group="Tamil_Hymns" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Tamil Hymns/app" />
+      <module fileurl="file://$PROJECT_DIR$/databaseProvisioner/databaseProvisioner.iml" filepath="$PROJECT_DIR$/databaseProvisioner/databaseProvisioner.iml" group="Tamil Hymns/databaseProvisioner" />
+      <module fileurl="file://$PROJECT_DIR$/sqlite/sqlite.iml" filepath="$PROJECT_DIR$/sqlite/sqlite.iml" group="Tamil Hymns/sqlite" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.Rtndevsinchrist.android.Tamilhymns">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="Tamil Hymns">
+        <activity
+            android:name="com.Rtndevsinchrist.android.Tamilhymns.settings.SettingsActivity"
+            android:label="Tamil Hymns"
+            android:parentActivityName="com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity"
+            android:theme="@style/SettingsTheme"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity" />
+        </activity>
+        <activity
+            android:name="com.Rtndevsinchrist.android.Tamilhymns.content.OverrideTypefaceApplication"
+            android:label="Tamil Hymns"
+            android:parentActivityName="com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity"
+            android:theme="@style/SettingsTheme"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity" />
+        </activity>
+        <activity
+            android:name="com.Rtndevsinchrist.android.Tamilhymns.HymnsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="Tamil Hymns"
+            android:theme="@style/MyMaterialTheme.Base"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
+        </activity>
+        <activity
+            android:name="com.Rtndevsinchrist.android.Tamilhymns.search.SearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/SearchTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+            <intent-filter>
+                <action android:name="com.Rtndevsinhim.hymns.INDEX" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.Rtndevsinchrist.android.Tamilhymns.sheetmusic.SheetMusicActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar">
+            <intent-filter>
+                <action android:name="com.lemuelinchrist.hymns.SHEET_MUSIC" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.Rtndevsinchrist.Tamilhymns"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+    </application>
+
+</manifest>
