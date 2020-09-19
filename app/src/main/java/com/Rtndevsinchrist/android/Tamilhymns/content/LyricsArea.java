@@ -173,8 +173,8 @@ public class LyricsArea extends ContentComponent<NestedScrollView> {
 //                                intent.setData(Uri.parse(hymn.getMeter()));
 //                                view.getContext().startActivity(intent);
 //
-                                HymnSwitcher hymnSwitcher=new HymnSwitcher();
-                                hymnSwitcher.switchHymn(hymn.getMeter());
+//                                HymnSwitcher hymnSwitcher=new HymnSwitcher();
+//                                hymnSwitcher.switchHymn(hymn.getMeter());
 
 
 
